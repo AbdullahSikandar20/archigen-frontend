@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import Scene from '../canvas/Scene'
 import TopBar from '../ui/TopBar'
 import Sidebar from '../ui/Sidebar'
@@ -7,13 +8,14 @@ import ZenButton from '../ui/ZenButton'
 
 export default function App() {
   const zenMode = useUIStore(s => s.zenMode)
+  const exportFnRef = useRef(null)
 
   return (
     <div className="app">
-      {!zenMode && <TopBar />}
+      {!zenMode && <TopBar onExport={() => exportFnRef.current?.()} />}
       <div className="main">
         {!zenMode && <Sidebar />}
-        <Scene />
+        <Scene onExportReady={(fn) => (exportFnRef.current = fn)} />
       </div>
       <ZenButton />
       <LoadingOverlay />

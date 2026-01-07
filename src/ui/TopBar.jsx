@@ -1,12 +1,30 @@
-import { useUIStore } from '../state/useUIStore'
+import { useEffect } from "react";
+import { useUIStore } from "../state/useUIStore";
+import { generateHouse } from "../services/houseAI";
 
-export default function TopBar() {
-  const { floorCount, setFloorCount, setLoading } = useUIStore()
+export default function TopBar({ onExport }) {
+  const {
+    floorCount,
+    setFloorCount,
+    setLoading,
+    setHouseData
+  } = useUIStore();
 
-  function fakeGenerate() {
-    setLoading(true)
-    setTimeout(() => setLoading(false), 2000)
+  async function handleGenerate() {
+    setLoading(true);
+    try {
+      const data = await generateHouse(floorCount);
+      setHouseData(data);
+    } catch (e) {
+      alert("House generation failed.");
+    } finally {
+      setLoading(false);
+    }
   }
+
+  useEffect(() => {
+    handleGenerate();
+  }, [floorCount]);
 
   return (
     <div className="topbar">
@@ -15,28 +33,30 @@ export default function TopBar() {
       </div>
 
       <div className="center">
-       <button className="btn-metal generate" onClick={fakeGenerate}>
-  Generate House
-</button>
+        <button className="btn-metal generate" onClick={handleGenerate}>
+          Generate House
+        </button>
 
+        <button className="btn-metal" onClick={onExport}>
+          Export glTF
+        </button>
       </div>
 
       <div className="right">
         <button
-  className={`btn-metal ${floorCount === 1 ? 'active' : ''}`}
-  onClick={() => setFloorCount(1)}
->
-  1 Floor
-</button>
+          className={`btn-metal ${floorCount === 1 ? "active" : ""}`}
+          onClick={() => setFloorCount(1)}
+        >
+          1 Floor
+        </button>
 
         <button
-  className={`btn-metal ${floorCount === 2 ? 'active' : ''}`}
-  onClick={() => setFloorCount(2)}
->
-  2 Floors
-</button>
-
+          className={`btn-metal ${floorCount === 2 ? "active" : ""}`}
+          onClick={() => setFloorCount(2)}
+        >
+          2 Floors
+        </button>
       </div>
     </div>
-  )
+  );
 }

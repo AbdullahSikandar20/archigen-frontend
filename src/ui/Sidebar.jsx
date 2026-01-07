@@ -1,4 +1,8 @@
 export default function Sidebar() {
+  function handleImport(e) {
+    alert("Import feature coming next phase!");
+  }
+
   return (
     <div className="sidebar">
       <div className="section">
@@ -13,7 +17,10 @@ export default function Sidebar() {
         </p>
       </div>
 
-    
+      <div className="section">
+        <h3>Import</h3>
+        <input type="file" onChange={handleImport} />
+      </div>
     </div>
   )
 }
