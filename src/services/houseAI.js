@@ -2,7 +2,7 @@ export async function generateHouse(floorCount) {
   // simulate AI generation delay
   await new Promise(r => setTimeout(r, 1800))
 
-  // This is where later we will call your real AI backend
+  // This is where later we will call our real AI backend
   return {
     floors: floorCount,
     width: 2 + Math.random(),
