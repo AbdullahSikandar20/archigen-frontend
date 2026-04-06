@@ -1,42 +1,33 @@
 import { useUIStore } from '../state/useUIStore'
 
 export default function TopBar() {
-  const { floorCount, setFloorCount, setLoading } = useUIStore()
-
-  function fakeGenerate() {
-    setLoading(true)
-    setTimeout(() => setLoading(false), 2000)
-  }
+  const generateHouse = useUIStore(s => s.generateHouse)
+  const floorCount = useUIStore(s => s.floorCount)
+  const setFloorCount = useUIStore(s => s.setFloorCount)
 
   return (
     <div className="topbar">
-      <div className="left">
-        <h1>ArchiGen</h1>
-      </div>
 
-      <div className="center">
-       <button className="btn-metal generate" onClick={fakeGenerate}>
-  Generate House
-</button>
-
-      </div>
-
-      <div className="right">
+      <div className="floors">
         <button
-  className={`btn-metal ${floorCount === 1 ? 'active' : ''}`}
-  onClick={() => setFloorCount(1)}
->
-  1 Floor
-</button>
+          className={floorCount === 1 ? "active" : ""}
+          onClick={() => setFloorCount(1)}
+        >
+          1 Floor
+        </button>
 
         <button
-  className={`btn-metal ${floorCount === 2 ? 'active' : ''}`}
-  onClick={() => setFloorCount(2)}
->
-  2 Floors
-</button>
-
+          className={floorCount === 2 ? "active" : ""}
+          onClick={() => setFloorCount(2)}
+        >
+          2 Floor
+        </button>
       </div>
+
+      <button className="generate" onClick={generateHouse}>
+        Generate House
+      </button>
+
     </div>
   )
 }

@@ -4,15 +4,15 @@ import Lights from './Lights'
 import Grid from './Grid'
 import HousePlaceholder from '../models/HousePlaceholder'
 
-export default function Scene() {
+export default function Scene({ houseKey, floorCount }) {
   return (
     <Canvas shadows>
       <Camera />
       <Lights />
       <Grid />
 
-      
-    <HousePlaceholder />
+      {/* 🔥 IMPORTANT */}
+      <HousePlaceholder key={houseKey} floorCount={floorCount} />
 
     </Canvas>
   )

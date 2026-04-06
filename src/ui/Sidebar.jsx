@@ -1,19 +1,38 @@
+import { useUIStore } from '../state/useUIStore'
+
 export default function Sidebar() {
+  const setPlacementMode = useUIStore(s => s.setPlacementMode)
+  const toggleDeleteMode = useUIStore(s => s.toggleDeleteMode)
+
+  const mode = useUIStore(s => s.placementMode)
+  const deleteMode = useUIStore(s => s.deleteMode)
+
   return (
     <div className="sidebar">
-      <div className="section">
-        <h3>Components</h3>
+      <h3>Components</h3>
 
-        <div className="component">🪟 Window</div>
-        <div className="component">🚪 Door</div>
+      <button
+        className={mode === "WINDOW" ? "active" : ""}
+        onClick={() => setPlacementMode("WINDOW")}
+      >
+        🪟 Window
+      </button>
 
-        <p className="note">
-          Drag & drop onto walls<br />
-          (Placement coming soon)
-        </p>
-      </div>
+      <button
+        className={mode === "DOOR" ? "active" : ""}
+        onClick={() => setPlacementMode("DOOR")}
+      >
+        🚪 Door
+      </button>
 
-    
+      <hr />
+
+      <button
+        className={deleteMode ? "active-delete" : ""}
+        onClick={toggleDeleteMode}
+      >
+        ❌ Remove
+      </button>
     </div>
   )
 }

@@ -7,14 +7,18 @@ import ZenButton from '../ui/ZenButton'
 
 export default function App() {
   const zenMode = useUIStore(s => s.zenMode)
+  const houseKey = useUIStore(s => s.houseKey)
+  const floorCount = useUIStore(s => s.floorCount)
 
   return (
     <div className="app">
       {!zenMode && <TopBar />}
+
       <div className="main">
         {!zenMode && <Sidebar />}
-        <Scene />
+        <Scene houseKey={houseKey} floorCount={floorCount} />
       </div>
+
       <ZenButton />
       <LoadingOverlay />
     </div>
