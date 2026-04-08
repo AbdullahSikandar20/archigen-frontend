@@ -108,14 +108,36 @@ body {
 }
 
 
-.loading {
-  background: rgba(15, 17, 21, 0.85);
-  backdrop-filter: blur(4px);
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 17, 21, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
 }
 
-.loading p {
-  margin-top: 10px;
+.bouncing-house {
+  font-size: 60px;
+  animation: bounce 0.6s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-20px); }
+}
+
+.loading-overlay p {
+  margin-top: 20px;
   color: var(--accent);
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .zen-btn {
@@ -183,6 +205,87 @@ body {
     var(--metal-base)
   );
   
+}
+
+.sidebar hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--metal-dark);
+  margin: 10px 0;
+}
+
+.controls-group, .views-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.sidebar button {
+  padding: 10px;
+  background: var(--metal-base);
+  border: 1px solid var(--metal-dark);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.sidebar button:hover {
+  background: var(--metal-highlight);
+}
+
+.sidebar button.active {
+  background: var(--accent);
+  color: #000;
+}
+
+.sidebar button.active-delete {
+  background: var(--danger);
+  color: white;
+}
+
+.sidebar button.active-ghost {
+  background: #9c27b0;
+  color: white;
+}
+
+.topbar .actions {
+  display: flex;
+  gap: 10px;
+}
+
+.topbar button {
+  padding: 6px 12px;
+  background: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.topbar button.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 5px var(--accent);
+}
+
+.views-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+}
+
+.views-group button {
+  text-align: center;
+  font-size: 12px;
 }
 
 .tooltip {

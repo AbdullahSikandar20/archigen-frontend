@@ -6,14 +6,12 @@ import HousePlaceholder from '../models/HousePlaceholder'
 
 export default function Scene({ houseKey, floorCount }) {
   return (
-    <Canvas shadows>
+    <Canvas shadows camera={{ position: [7, 7, 7], fov: 45 }}>
       <Camera />
       <Lights />
       <Grid />
 
-      {/* 🔥 IMPORTANT */}
-      <HousePlaceholder key={houseKey} floorCount={floorCount} />
-
+      <HousePlaceholder floorCount={floorCount} />
     </Canvas>
   )
 }

@@ -1,35 +1,56 @@
+import React from 'react'
+import { PremiumWindow } from '../models/ArchitecturalComponents'
+import { useUIStore } from '../state/useUIStore'
+
 export default function Openings({ openings, walls, onRemove, deleteMode }) {
+  const ghostMode = useUIStore(s => s.ghostMode)
+
   return openings.map((item, i) => {
-    const wall = walls.find(w => w.id === item.wallId && w.floor === item.floor)
+    // 🔍 Find the specific wall on the specific wing and floor
+    const wall = walls.find(w => 
+      w.id === item.wallId && 
+      w.floor === item.floor && 
+      (!item.sectionId || w.sectionId === item.sectionId)
+    )
+    
     if (!wall) return null
 
     const { position, rotation, length, normal } = wall
-
+    const offsetCentered = item.offset - length / 2
+    
     const dirX = Math.cos(rotation[1])
     const dirZ = Math.sin(rotation[1])
-
-    const offsetCentered = item.offset - length / 2
-
+    
+    // 📍 Calculate precise 3D position
     const x = position[0] + dirX * offsetCentered + normal[0] * 0.12
     const z = position[2] + dirZ * offsetCentered + normal[2] * 0.12
-
-    const isDoor = item.type === "DOOR"
+    const y = item.type === "DOOR" ? position[1] : position[1] + 0.4
 
     return (
-      <mesh
-        key={i}
-        position={[x, isDoor ? position[1] : position[1] + 0.4, z]}
-        rotation={rotation}
-        onClick={(e) => {
-          e.stopPropagation()
-          if (deleteMode) onRemove(i)
-        }}
+      <group 
+        key={i} 
+        position={[x, y, z]} 
+        rotation={rotation} 
+        onClick={() => deleteMode && onRemove(i)}
       >
-        <boxGeometry args={isDoor ? [0.7, 1.1, 0.12] : [0.5, 0.5, 0.12]} />
-        <meshStandardMaterial
-          color={deleteMode ? "red" : isDoor ? "#3e2723" : "#4fc3f7"}
-        />
-      </mesh>
+         {/* 💎 Use Premium Architectural Assets */}
+         {item.type === "WINDOW" || item.type === "LUXURY_GLASS" ? (
+            <PremiumWindow 
+              width={item.type === "LUXURY_GLASS" ? 1.2 : 0.6} 
+              height={0.6} 
+              ghostMode={ghostMode}
+            />
+         ) : (
+            <mesh>
+               <boxGeometry args={[0.7, 1.1, 0.12]} />
+               <meshStandardMaterial 
+                 color={deleteMode ? "#ff5252" : "#1a1a1a"} 
+                 transparent={true}
+                 opacity={ghostMode ? 0.3 : 1}
+               />
+            </mesh>
+         )}
+      </group>
     )
   })
 }

@@ -1,14 +1,14 @@
 import { useUIStore } from '../state/useUIStore'
 
 export default function LoadingOverlay() {
-  const loading = useUIStore(s => s.loading)
+  const isGenerating = useUIStore(s => s.isGenerating)
 
-  if (!loading) return null
+  if (!isGenerating) return null
 
   return (
-    <div className="loading">
-      <div className="spinner"></div>
-      <p>Generating house...</p>
+    <div className="loading-overlay">
+      <div className="bouncing-house">🏠</div>
+      <p>AI Architect is designing...</p>
     </div>
   )
 }
